@@ -1,0 +1,31 @@
+.app{
+  height:1350px;
+  width:960px;
+  background: #F3F7FA;
+  position: relative;
+  margin: 0 auto;
+
+  &__header{
+    height: 160px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__wrapper{
+      display: flex;
+      justify-content: space-around;
+      padding: 0 90px;
+  }
+
+  &__side{
+    height:252px;
+    width:232px;
+    background: aquamarine;
+  }
+
+  &__content{
+    height:184px;
+    width:502px;
+    background: violet;
+  }
+}

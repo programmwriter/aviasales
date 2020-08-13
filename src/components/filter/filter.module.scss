@@ -1,0 +1,11 @@
+.filter{
+  margin: 0;
+  padding: 0;
+
+  &__title{
+    text-transform: uppercase;
+    font-size: 12px;
+    line-height: 12px;
+    color: #4A4A4A;
+  }
+}
