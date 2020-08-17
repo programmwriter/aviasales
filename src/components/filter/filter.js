@@ -6,11 +6,11 @@ const Filter = () => {
   return (
     <div className={classes.filter}>
       <div className={classes.filter__title}>Количество пересадок</div>
-      <Option />
-      <Option />
-      <Option />
-      <Option />
-      <Option />
+      <Option label="Все" />
+      <Option label="Без пересадок" />
+      <Option label="1 пересадка" />
+      <Option label="2 пересадки " />
+      <Option label="3 пересадки" />
     </div>
   );
 };
