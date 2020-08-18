@@ -5,13 +5,13 @@ import classes from "./tabs.module.scss";
 const Tabs = () => {
   const leftTabItemClass = classNames({
     [classes.tabs__item]: true,
-    [classes.tabs__item_active]: false,
+    [classes.tabs__item_active]: true,
     [classes.tabs__item_left]: true,
   });
 
   const rightTabItemClass = classNames({
     [classes.tabs__item]: true,
-    [classes.tabs__item_active]: true,
+    [classes.tabs__item_active]: false,
     [classes.tabs__item_right]: true,
   });
 
