@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./filter.module.scss";
 import Option from "../option";
+// import { connect } from 'react-redux';
 
 const Filter = () => {
   return (

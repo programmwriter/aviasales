@@ -8,7 +8,6 @@ const Option = ({ label }) => {
   const onChange = (event) => {
     const { target } = event;
     setChecked(target.checked);
-    console.log(target.checked);
   };
 
   return (
