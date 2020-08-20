@@ -1,6 +1,6 @@
-export const changeFilter = (filter) => ({
+export const changeFilter = (title) => ({
   type: "CHANGE_FILTER",
-  filter,
+  title,
 });
 export const NamesFilters = {
   SHOW_ALL: "SHOW_ALL",

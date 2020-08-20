@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import classes from "./option.module.scss";
 
-const Option = ({ label }) => {
-  const [checked, setChecked] = useState(false);
+const Option = ({ data, onKlick }) => {
+  const { label, title, enabled } = data;
 
-  const onChange = (event) => {
-    const { target } = event;
-    setChecked(target.checked);
+  const onChange = () => {
+    onKlick(title);
   };
 
   return (
@@ -17,7 +16,7 @@ const Option = ({ label }) => {
           className={classes.check__input}
           type="checkbox"
           onChange={onChange}
-          checked={checked}
+          checked={enabled}
         />
         <span className={classes.check__box} />
         {label}
@@ -29,5 +28,10 @@ const Option = ({ label }) => {
 export default Option;
 
 Option.propTypes = {
-  label: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    label: PropTypes.string,
+    title: PropTypes.string,
+    enabled: PropTypes.bool,
+  }).isRequired,
+  onKlick: PropTypes.func.isRequired,
 };
