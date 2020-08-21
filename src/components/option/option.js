@@ -2,11 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import classes from "./option.module.scss";
 
-const Option = ({ data, onKlick }) => {
+const Option = ({ data, onClick }) => {
   const { label, title, enabled } = data;
 
   const onChange = () => {
-    onKlick(title);
+    onClick(title);
   };
 
   return (
@@ -33,5 +33,5 @@ Option.propTypes = {
     title: PropTypes.string,
     enabled: PropTypes.bool,
   }).isRequired,
-  onKlick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

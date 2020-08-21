@@ -6,9 +6,9 @@ import Option from "../option";
 import { changeFilter } from "../../actions";
 // import { connect } from 'react-redux';
 
-const Filter = ({ filters, onKlick }) => {
+const Filter = ({ filters, onClick }) => {
   const filterList = filters.map((filter) => {
-    return <Option key={filter.title} data={filter} onKlick={onKlick} />;
+    return <Option key={filter.title} data={filter} onClick={onClick} />;
   });
   return (
     <div className={classes.filter}>
@@ -22,7 +22,7 @@ const mapStateToProps = ({ filters }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onKlick: (title) => {
+  onClick: (title) => {
     dispatch(changeFilter(title));
   },
 });
@@ -36,5 +36,5 @@ Filter.propTypes = {
       enabled: PropTypes.bool,
     })
   ).isRequired,
-  onKlick: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

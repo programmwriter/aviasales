@@ -8,7 +8,7 @@ import { toggleTab } from "../../actions";
 
 const Tabs = ({ tabs, changeTab }) => {
   const tabsList = tabs.map((tab) => {
-    const { label, active } = tab;
+    const { label, id, active } = tab;
 
     const tabItemClass = classNames({
       [classes.tabs__item]: true,
@@ -17,10 +17,12 @@ const Tabs = ({ tabs, changeTab }) => {
 
     return (
       <button
-        key={label}
+        key={id}
         type="button"
         className={tabItemClass}
-        onClick={() => changeTab()}
+        onClick={() => {
+          changeTab(id);
+        }}
       >
         {label}
       </button>
@@ -34,8 +36,8 @@ const mapStateToProps = ({ tabs }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeTab: () => {
-    dispatch(toggleTab());
+  changeTab: (id) => {
+    dispatch(toggleTab(id));
   },
 });
 

@@ -29,18 +29,22 @@ const initialState = {
   tabs: [
     {
       label: "САМЫЙ ДЕШЕВЫЙ",
-      name: "chiper",
+      id: 1,
       active: true,
     },
     {
       label: "САМЫЙ БЫСТРЫЙ",
-      name: "faster",
+      id: 2,
       active: false,
     },
   ],
+  searchId: "",
+  tickets: [],
 };
-const toggleTab = ({ tabs }) => {
-  return tabs.map((tab) => ({ ...tab, active: !tab.active }));
+const toggleTab = ({ tabs }, id) => {
+  return tabs.map((tab) => {
+    return tab.id === id ? { ...tab, active: true } : { ...tab, active: false };
+  });
 };
 const switchFilters = ({ filters }, title) => {
   // Если включается галочка "Все" - проставляются галочки всем остальным фильтрам
@@ -85,7 +89,12 @@ const reducer = (state = initialState, action) => {
       return { ...state, filters: switchFilters(state, action.title) };
 
     case "TOGGLE_TAB":
-      return { ...state, tabs: toggleTab(state) };
+      return { ...state, tabs: toggleTab(state, action.id) };
+
+    case "RECEIVE_SEARCHID": {
+      const { searchId } = action.payload;
+      return { ...state, searchId };
+    }
 
     default:
       return state;
