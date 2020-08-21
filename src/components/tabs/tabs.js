@@ -1,26 +1,53 @@
 import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import classNames from "classnames";
 import classes from "./tabs.module.scss";
 
-const Tabs = () => {
-  const leftTabItemClass = classNames({
-    [classes.tabs__item]: true,
-    [classes.tabs__item_active]: true,
-    [classes.tabs__item_left]: true,
+import { toggleTab } from "../../actions";
+
+const Tabs = ({ tabs, changeTab }) => {
+  const tabsList = tabs.map((tab) => {
+    const { label, active } = tab;
+
+    const tabItemClass = classNames({
+      [classes.tabs__item]: true,
+      [classes.tabs__item_active]: active,
+    });
+
+    return (
+      <button
+        key={label}
+        type="button"
+        className={tabItemClass}
+        onClick={() => changeTab()}
+      >
+        {label}
+      </button>
+    );
   });
 
-  const rightTabItemClass = classNames({
-    [classes.tabs__item]: true,
-    [classes.tabs__item_active]: false,
-    [classes.tabs__item_right]: true,
-  });
-
-  return (
-    <div className={classes.tabs}>
-      <div className={leftTabItemClass}> Самый дешевый </div>
-      <div className={rightTabItemClass}> Самый быстрый</div>
-    </div>
-  );
+  return <div className={classes.tabs}>{tabsList}</div>;
 };
+const mapStateToProps = ({ tabs }) => ({
+  tabs,
+});
 
-export default Tabs;
+const mapDispatchToProps = (dispatch) => ({
+  changeTab: () => {
+    dispatch(toggleTab());
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tabs);
+
+Tabs.propTypes = {
+  tabs: PropTypes.arrayOf(
+    PropTypes.shape({
+      label: PropTypes.string,
+      name: PropTypes.string,
+      active: PropTypes.bool,
+    })
+  ).isRequired,
+  changeTab: PropTypes.func.isRequired,
+};

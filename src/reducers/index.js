@@ -26,9 +26,23 @@ const initialState = {
       enabled: false,
     },
   ],
+  tabs: [
+    {
+      label: "САМЫЙ ДЕШЕВЫЙ",
+      name: "chiper",
+      active: true,
+    },
+    {
+      label: "САМЫЙ БЫСТРЫЙ",
+      name: "faster",
+      active: false,
+    },
+  ],
 };
-
-const switchFilters = (filters, title) => {
+const toggleTab = ({ tabs }) => {
+  return tabs.map((tab) => ({ ...tab, active: !tab.active }));
+};
+const switchFilters = ({ filters }, title) => {
   // Если включается галочка "Все" - проставляются галочки всем остальным фильтрам
   if (title === "all") {
     const idx = filters.findIndex((el) => el.title === "all");
@@ -68,10 +82,10 @@ const switchFilters = (filters, title) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "CHANGE_FILTER":
-      return { ...state, filters: switchFilters(state.filters, action.title) };
+      return { ...state, filters: switchFilters(state, action.title) };
 
-    case "DECREMENT":
-      return state - 1;
+    case "TOGGLE_TAB":
+      return { ...state, tabs: toggleTab(state) };
 
     default:
       return state;
