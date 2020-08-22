@@ -1,41 +1,67 @@
 import React from "react";
+import PropTypes from "prop-types";
 import classes from "./ticket.module.scss";
-import logo from "../../images/S7_Logo.png";
+import * as format from "./formatFunc";
 
-const Ticket = () => {
+const Ticket = ({ ticket }) => {
+  const {
+    carrier,
+    price,
+    segments: [mow, nkt],
+  } = ticket;
+
+  const imgUrl = `http://pics.avs.io/99/36/${carrier}.png`;
   return (
     <div className={classes.ticket}>
       <div className={classes.ticket__header}>
-        <div className={classes.ticket__price}>13 400 Р</div>
-        {/* <div className={classes.ticket__logo}>fds</div> */}
-        <img src={logo} className={classes.ticket__logo} alt="logo" />
+        <div className={classes.ticket__price}>{`${format.price(
+          price
+        )} Р`}</div>
+
+        <img src={imgUrl} className={classes.ticket__logo} alt="logo" />
       </div>
       <div className={classes.ticket__item}>
         <div className={classes.ticket__column}>
           <div className={classes.ticket__title}>MOW – HKT</div>
-          <div className={classes.ticket__text}>10:45 – 08:00</div>
+          <div className={classes.ticket__text}>
+            {format.mowNkt(mow.date, mow.duration)}
+          </div>
         </div>
         <div className={classes.ticket__column}>
           <div className={classes.ticket__title}>В пути</div>
-          <div className={classes.ticket__text}>21ч 15м</div>
+          <div className={classes.ticket__text}>
+            {format.duration(mow.duration)}
+          </div>
         </div>
         <div className={classes.ticket__column}>
-          <div className={classes.ticket__title}>2 пересадки</div>
-          <div className={classes.ticket__text}>HKG, JNB</div>
+          <div className={classes.ticket__title}>
+            {format.transfersLabel(mow.stops.length)}
+          </div>
+          <div className={classes.ticket__text}>
+            {format.transfers(mow.stops) || 0}
+          </div>
         </div>
       </div>
       <div className={classes.ticket__item}>
         <div className={classes.ticket__column}>
           <div className={classes.ticket__title}>MOW – HKT</div>
-          <div className={classes.ticket__text}>11:20 – 00:50</div>
+          <div className={classes.ticket__text}>
+            {format.mowNkt(nkt.date, nkt.duration)}
+          </div>
         </div>
         <div className={classes.ticket__column}>
           <div className={classes.ticket__title}>В пути</div>
-          <div className={classes.ticket__text}>13ч 30м</div>
+          <div className={classes.ticket__text}>
+            {format.duration(nkt.duration)}
+          </div>
         </div>
         <div className={classes.ticket__column}>
-          <div className={classes.ticket__title}>1 пересадка</div>
-          <div className={classes.ticket__text}>HKG</div>
+          <div className={classes.ticket__title}>
+            {format.transfersLabel(nkt.stops.length)}
+          </div>
+          <div className={classes.ticket__text}>
+            {format.transfers(nkt.stops) || 0}
+          </div>
         </div>
       </div>
     </div>
@@ -43,3 +69,19 @@ const Ticket = () => {
 };
 
 export default Ticket;
+
+Ticket.propTypes = {
+  ticket: PropTypes.shape({
+    price: PropTypes.number,
+    carrier: PropTypes.string,
+    segments: PropTypes.arrayOf(
+      PropTypes.shape({
+        origin: PropTypes.string,
+        destination: PropTypes.string,
+        date: PropTypes.string,
+        stops: PropTypes.arrayOf(PropTypes.string),
+        duration: PropTypes.number,
+      })
+    ),
+  }).isRequired,
+};

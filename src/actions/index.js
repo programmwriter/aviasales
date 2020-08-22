@@ -16,19 +16,22 @@ export const receiveTickets = (payload) => ({
   payload,
 });
 
-export const fetchSearchId = () => {
+export const fetchTickets = () => {
   return (dispatch) => {
     return fetch(`https://front-test.beta.aviasales.ru/search`)
       .then((response) => response.json())
-      .then((json) => dispatch(receiveSearchId(json)));
+      .then((json) => {
+        dispatch(receiveSearchId(json));
+        return json;
+      })
+      .then((data) => {
+        return fetch(
+          `https://front-test.beta.aviasales.ru/tickets?searchId=${data.searchId}`
+        );
+      })
+      .then((response) => response.json())
+      .then((json) => {
+        return dispatch(receiveTickets(json));
+      });
   };
 };
-// export const fetchTickets = () => {
-//   return (dispatch, getState) => {
-//     const searchId = getState();
-//     console.log(searchId.searchId);
-//     return fetch(`https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`)
-//       .then(response => response.json())
-//       .then(json => dispatch(receiveTickets(json)))
-//   }
-// };

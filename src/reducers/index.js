@@ -95,7 +95,10 @@ const reducer = (state = initialState, action) => {
       const { searchId } = action.payload;
       return { ...state, searchId };
     }
-
+    case "RECEIVE_TICKETS": {
+      const { tickets } = action.payload;
+      return { ...state, tickets };
+    }
     default:
       return state;
   }
