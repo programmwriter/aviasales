@@ -1,3 +1,5 @@
+import { sortByPrice, sortByDuration } from "./sorts";
+
 const initialState = {
   filters: [
     {
@@ -40,11 +42,20 @@ const initialState = {
   ],
   searchId: "",
   tickets: [],
+  sortedTickets: [],
 };
-const toggleTab = ({ tabs }, id) => {
-  return tabs.map((tab) => {
+const toggleTab = (store, id) => {
+  const { tabs, tickets } = store;
+  const tempTickets = id === 1 ? sortByPrice(tickets) : sortByDuration(tickets);
+
+  const tempTabs = tabs.map((tab) => {
     return tab.id === id ? { ...tab, active: true } : { ...tab, active: false };
   });
+
+  return {
+    tabs: tempTabs,
+    sortedTickets: tempTickets,
+  };
 };
 const switchFilters = ({ filters }, title) => {
   // Если включается галочка "Все" - проставляются галочки всем остальным фильтрам
@@ -88,16 +99,20 @@ const reducer = (state = initialState, action) => {
     case "CHANGE_FILTER":
       return { ...state, filters: switchFilters(state, action.title) };
 
-    case "TOGGLE_TAB":
-      return { ...state, tabs: toggleTab(state, action.id) };
+    case "TOGGLE_TAB": {
+      const { tabs, sortedTickets } = toggleTab(state, action.id);
+      return { ...state, tabs, sortedTickets };
+    }
 
     case "RECEIVE_SEARCHID": {
       const { searchId } = action.payload;
       return { ...state, searchId };
     }
+
     case "RECEIVE_TICKETS": {
       const { tickets } = action.payload;
-      return { ...state, tickets };
+      const sortedTickets = sortByPrice(tickets);
+      return { ...state, tickets, sortedTickets };
     }
     default:
       return state;

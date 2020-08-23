@@ -1,17 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./ticketList.scss";
 import Ticket from "../ticket";
 
-import { fetchTickets } from "../../actions";
-
-const TicketList = ({ tickets, getTickets }) => {
-  useEffect(() => {
-    getTickets();
-  }, []);
-
-  const ticketsList = tickets.map((ticket) => {
+const TicketList = ({ sortedTickets }) => {
+  const ticketsList = sortedTickets.map((ticket) => {
     return (
       <Ticket
         key={`${ticket.price}${ticket.segments[0].date}`}
@@ -23,25 +17,18 @@ const TicketList = ({ tickets, getTickets }) => {
   return <>{ticketsList}</>;
 };
 
-const mapStateToProps = ({ tickets }) => ({
-  tickets,
+const mapStateToProps = ({ sortedTickets }) => ({
+  sortedTickets,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  getTickets: () => {
-    dispatch(fetchTickets());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(TicketList);
+export default connect(mapStateToProps)(TicketList);
 
 TicketList.propTypes = {
-  tickets: PropTypes.arrayOf(
+  sortedTickets: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string,
       name: PropTypes.string,
       active: PropTypes.bool,
     })
   ).isRequired,
-  getTickets: PropTypes.func.isRequired,
 };
