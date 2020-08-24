@@ -31,6 +31,7 @@ export const fetchTickets = () => {
       })
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         return dispatch(receiveTickets(json));
       });
   };
