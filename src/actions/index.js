@@ -2,6 +2,10 @@ export const changeFilter = (title) => ({
   type: "CHANGE_FILTER",
   title,
 });
+export const throwError = (message) => ({
+  type: "THROW_ERROR",
+  message,
+});
 export const toggleTab = (id) => ({
   type: "TOGGLE_TAB",
   id,
@@ -31,8 +35,10 @@ export const fetchTickets = () => {
       })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         return dispatch(receiveTickets(json));
+      })
+      .catch((error) => {
+        return dispatch(throwError(error));
       });
   };
 };

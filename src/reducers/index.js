@@ -42,7 +42,10 @@ const initialState = {
   ],
   searchId: "",
   lastFetchDate: "",
-  error: false,
+  error: {
+    status: false,
+    message: "",
+  },
   loaded: false,
   fetchingStopFlag: false,
   tickets: [],
@@ -59,6 +62,11 @@ const reducer = (state = initialState, action) => {
       return { ...state, filters, sortedTickets };
     }
 
+    case "THROW_ERROR": {
+      const { status } = state.error;
+      const { message } = action.message;
+      return { ...state, error: { status: !status, message } };
+    }
     case "TOGGLE_TAB": {
       const { tabs, sortedTickets } = toggleTab(state, action.id);
       return { ...state, tabs, sortedTickets };

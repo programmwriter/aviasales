@@ -5,7 +5,7 @@ import "./ticketList.scss";
 import Ticket from "../ticket";
 
 const TicketList = ({ sortedTickets }) => {
-  const ticketsList = sortedTickets.map((ticket) => {
+  const ticketsList = sortedTickets.slice(0, 5).map((ticket) => {
     return (
       <Ticket
         key={`${ticket.price}${ticket.segments[0].date}`}
