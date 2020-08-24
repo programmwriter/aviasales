@@ -1,4 +1,5 @@
 import { sortByPrice, toggleTab, manipulateWithTickets } from "./sorts";
+// import { fetchTickets } from "../actions";
 
 const initialState = {
   filters: [
@@ -78,11 +79,12 @@ const reducer = (state = initialState, action) => {
     }
 
     case "RECEIVE_TICKETS": {
-      const { tickets } = action.payload;
-      const sortedTickets = sortByPrice(tickets);
+      const { tickets: stateTickets } = state;
+      const { tickets: fetchedTickets } = action.payload;
+      const sortedTickets = sortByPrice(fetchedTickets);
       return {
         ...state,
-        tickets,
+        tickets: [...stateTickets, ...fetchedTickets],
         sortedTickets,
         lastFetchDate: action.lastFetchDate,
       };
