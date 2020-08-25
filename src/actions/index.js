@@ -1,3 +1,8 @@
+import axios from "axios";
+
+// const baseUrl = 'https://aviasales-test-api.java-mentor.com';
+const baseUrl = "https://front-test.beta.aviasales.ru";
+
 export const changeFilter = (title) => ({
   type: "CHANGE_FILTER",
   title,
@@ -20,55 +25,29 @@ export const receiveTickets = (payload) => ({
   payload,
 });
 
-// const recursiveFetch = (searchId, dispatch) => {
-//   return fetch(
-//     `https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`
-//   )
-//   .then((response) => response.json())
-//   .then((json) => {
-//     dispatch(receiveTickets(json));
-//     if(!json.stop){
-//       recursiveFetch(searchId);
-//     }
-//     return dispatch(receiveTickets(json));
-//   })
-// }
+const recursiveFetch = async (searchId, cb) => {
+  const respTickets = await axios.get(
+    `${baseUrl}/tickets?searchId=${searchId}`
+  );
+  cb(receiveTickets(respTickets.data));
 
-export const fetchTickets = () => {
-  return (dispatch) => {
-    return (
-      fetch(`https://front-test.beta.aviasales.ru/search`)
-        .then((response) => response.json())
-        .then((json) => {
-          dispatch(receiveSearchId(json));
-          return json;
-        })
-        .then((data) => {
-          const recursiveFetch = (searchId) => {
-            fetch(
-              `https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`
-            )
-              .then((response) => response.json())
-              .then((json) => {
-                dispatch(receiveTickets(json));
-                if (!json.stop) {
-                  recursiveFetch(searchId);
-                }
-                return dispatch(receiveTickets(json));
-              });
-          };
-          return recursiveFetch(data.searchId);
-          // return fetch(
-          //   `https://front-test.beta.aviasales.ru/tickets?searchId=${data.searchId}`
-          // );
-        })
-        // .then((response) => response.json())
-        // .then((json) => {
-        //   return dispatch(receiveTickets(json));
-        // })
-        .catch((error) => {
-          return dispatch(throwError(error));
-        })
-    );
-  };
+  if (respTickets.data.stop) {
+    return null;
+  }
+
+  const resp = await recursiveFetch(searchId, cb);
+  return resp;
+};
+
+export const fetchTickets = () => async (dispatch) => {
+  try {
+    const respSearchId = await axios.get(`${baseUrl}/search`);
+
+    dispatch(receiveSearchId(respSearchId.data.searchId));
+
+    recursiveFetch(respSearchId.data.searchId, dispatch);
+  } catch (error) {
+    // console.log(`catch block of fetchTickets func ${error}`)
+    dispatch(throwError(error));
+  }
 };
