@@ -45,7 +45,7 @@ export const fetchTickets = () => {
         })
         .then((data) => {
           const recursiveFetch = (searchId) => {
-            return fetch(
+            fetch(
               `https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`
             )
               .then((response) => response.json())
