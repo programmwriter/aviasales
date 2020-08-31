@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { createLogger } from "redux-logger";
 import { composeWithDevTools } from "redux-devtools-extension/developmentOnly";
-import { fetchTickets } from "./actions";
+import { asyncGetTickets } from "./actions";
 
 import reducer from "./reducers";
 
@@ -16,4 +16,4 @@ const store = createStore(
 export default store;
 // store.dispatch(fetchSearchId()).then(() => console.log('store.getState()'))
 // store.dispatch(fetchTickets()).then(() => console.log(store.getState()))
-store.dispatch(fetchTickets());
+store.dispatch(asyncGetTickets());

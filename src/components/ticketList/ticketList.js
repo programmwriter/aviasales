@@ -6,14 +6,7 @@ import Ticket from "../ticket";
 
 const TicketList = ({ sortedTickets }) => {
   const ticketsList = sortedTickets.slice(0, 5).map((ticket) => {
-    return (
-      <Ticket
-        key={`${ticket.price}${ticket.carrier}${ticket.segments[0].date}${
-          ticket.segments[1].date
-        }${ticket.segments[1].stops.toString()}${ticket.segments[0].stops.toString()}`}
-        ticket={ticket}
-      />
-    );
+    return <Ticket key={`${ticket.id}`} ticket={ticket} />;
   });
 
   return <>{ticketsList}</>;

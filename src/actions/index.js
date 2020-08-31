@@ -1,7 +1,8 @@
-import axios from "axios";
-
-// const baseUrl = 'https://aviasales-test-api.java-mentor.com';
-const baseUrl = "https://front-test.beta.aviasales.ru";
+import {
+  getSearchIdFromApi,
+  getTicketsInLoop,
+} from "../services/ticketServices";
+import addIdToTickets from "../services/addIdToTickets";
 
 export const changeFilter = (title) => ({
   type: "CHANGE_FILTER",
@@ -16,38 +17,25 @@ export const toggleTab = (id) => ({
   id,
 });
 
-export const receiveSearchId = (payload) => ({
+export const receiveSearchId = (searchId) => ({
   type: "RECEIVE_SEARCHID",
-  payload,
+  searchId,
 });
-export const receiveTickets = (payload) => ({
+export const receiveTickets = (tickets) => ({
   type: "RECEIVE_TICKETS",
-  payload,
+  tickets,
 });
 
-const recursiveFetch = async (searchId, cb) => {
-  const respTickets = await axios.get(
-    `${baseUrl}/tickets?searchId=${searchId}`
-  );
-  cb(receiveTickets(respTickets.data));
-
-  if (respTickets.data.stop) {
-    return null;
-  }
-
-  const resp = await recursiveFetch(searchId, cb);
-  return resp;
-};
-
-export const fetchTickets = () => async (dispatch) => {
+export const asyncGetTickets = () => async (dispatch) => {
   try {
-    const respSearchId = await axios.get(`${baseUrl}/search`);
+    const response = await getSearchIdFromApi();
+    const { searchId } = response;
 
-    dispatch(receiveSearchId(respSearchId.data.searchId));
+    dispatch(receiveSearchId(searchId));
 
-    recursiveFetch(respSearchId.data.searchId, dispatch);
+    const addIdFn = addIdToTickets();
+    getTicketsInLoop(searchId, dispatch, receiveTickets, addIdFn);
   } catch (error) {
-    // console.log(`catch block of fetchTickets func ${error}`)
     dispatch(throwError(error));
   }
 };

@@ -1,5 +1,8 @@
-import { sortByPrice, toggleTab, manipulateWithTickets } from "./sorts";
-// import { fetchTickets } from "../actions";
+import {
+  sortByPrice,
+  toggleTab,
+  manipulateWithTickets,
+} from "../services/sortTickets";
 
 const initialState = {
   filters: [
@@ -42,13 +45,11 @@ const initialState = {
     },
   ],
   searchId: "",
-  lastFetchDate: "",
   error: {
     status: false,
     message: "",
   },
-  loaded: false,
-  fetchingStopFlag: false,
+  loading: false,
   tickets: [],
   sortedTickets: [],
 };
@@ -74,13 +75,13 @@ const reducer = (state = initialState, action) => {
     }
 
     case "RECEIVE_SEARCHID": {
-      const { searchId } = action.payload;
+      const { searchId } = action;
       return { ...state, searchId };
     }
 
     case "RECEIVE_TICKETS": {
       const { tickets: stateTickets } = state;
-      const { tickets: fetchedTickets } = action.payload;
+      const { tickets: fetchedTickets } = action;
       const sortedTickets = sortByPrice(fetchedTickets);
       return {
         ...state,
