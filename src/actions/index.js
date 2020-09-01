@@ -25,6 +25,10 @@ export const receiveTickets = (tickets) => ({
   type: "RECEIVE_TICKETS",
   tickets,
 });
+export const completedLoading = (tickets) => ({
+  type: "COMPLETED_LOADING",
+  tickets,
+});
 
 export const asyncGetTickets = () => async (dispatch) => {
   try {
@@ -34,7 +38,9 @@ export const asyncGetTickets = () => async (dispatch) => {
     dispatch(receiveSearchId(searchId));
 
     const addIdFn = addIdToTickets();
-    getTicketsInLoop(searchId, dispatch, receiveTickets, addIdFn);
+    const actions = { receiveTickets, completedLoading };
+
+    getTicketsInLoop(searchId, dispatch, actions, addIdFn);
   } catch (error) {
     dispatch(throwError(error));
   }

@@ -49,7 +49,7 @@ const initialState = {
     status: false,
     message: "",
   },
-  loading: false,
+  completedLoading: false,
   tickets: [],
   sortedTickets: [],
 };
@@ -77,6 +77,10 @@ const reducer = (state = initialState, action) => {
     case "RECEIVE_SEARCHID": {
       const { searchId } = action;
       return { ...state, searchId };
+    }
+
+    case "COMPLETED_LOADING": {
+      return { ...state, completedLoading: true };
     }
 
     case "RECEIVE_TICKETS": {

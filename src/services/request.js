@@ -9,9 +9,10 @@ async function request(url, options = {}, numbersOfOperations = 0) {
 
     body = await response.json();
   } catch (error) {
-    if (numbersOfOperations < 3)
+    if (numbersOfOperations < 3) {
       return request(url, options, numbersOfOperations + 1);
-    const myMessage = "Does not send request after 3 attempts";
+    }
+    const myMessage = "Three faled requests";
     throw new Error(`${myMessage}, ${error.message}`);
   }
 

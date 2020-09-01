@@ -13,17 +13,21 @@ export const getTicketsFromApi = (searchId) => {
 export const getTicketsInLoop = async (
   searchId,
   cbDispatch,
-  actionFn,
+  actions,
   addIdFn
 ) => {
   const response = await getTicketsFromApi(searchId);
   const { tickets, stop } = response;
+
   const ticketsWithId = addIdFn(tickets);
-  cbDispatch(actionFn(ticketsWithId));
+  const { receiveTickets, completedLoading } = actions;
+
+  cbDispatch(receiveTickets(ticketsWithId));
 
   if (!stop) {
-    await getTicketsInLoop(searchId, cbDispatch, actionFn, addIdFn);
+    await getTicketsInLoop(searchId, cbDispatch, actions, addIdFn);
   }
 
+  cbDispatch(completedLoading());
   return null;
 };

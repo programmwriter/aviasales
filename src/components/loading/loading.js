@@ -1,20 +1,38 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-const Loading = ({ error, loading }) => {
-  if (!loading || !error) {
-    return <div>spiner</div>;
-  }
+import { Spin, Alert } from "antd";
 
+import "antd/dist/antd.css";
+
+const Loading = ({ loading }) => {
+  // const content = !loading? <Spin />:<div>Completed</div>;
+  // console.log(loading)
   return (
     <>
-      <div>{error}</div>
-      <div>{loading}</div>
+      <Spin spinning={!loading}>
+        <Alert
+          message="Alert message title"
+          description="Further details about the context of this alert."
+          type="info"
+        />
+      </Spin>
     </>
   );
+  // return (
+  //   <>
+  //     {content}
+  //   </>
+  // );
 };
 
+const mapStateToProps = ({ completedLoading }) => ({
+  loading: completedLoading,
+});
+
+export default connect(mapStateToProps)(Loading);
+
 Loading.propTypes = {
-  error: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
 };
