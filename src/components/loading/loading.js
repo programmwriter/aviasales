@@ -4,23 +4,15 @@ import { connect } from "react-redux";
 
 import { Spin, Alert } from "antd";
 
+import "./loading.scss";
 import "antd/dist/antd.css";
 
 const Loading = ({ loading }) => {
-  // const content = !loading? <Spin />:<div>Completed</div>;
-  // console.log(loading)
   return (
-    <>
-      <Spin spinning={!loading}>
-        <Alert message="Info" description="Tickets loaded!!!" type="info" />
-      </Spin>
-    </>
+    <Spin spinning={!loading}>
+      <Alert message="Tickets loaded!!!" type="info" />
+    </Spin>
   );
-  // return (
-  //   <>
-  //     {content}
-  //   </>
-  // );
 };
 
 const mapStateToProps = ({ completedLoading }) => ({

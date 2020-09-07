@@ -1,7 +1,7 @@
 import {
-  sortByPrice,
   toggleTab,
   manipulateWithTickets,
+  filterByTransfers,
 } from "../services/sortTickets";
 
 const initialState = {
@@ -84,14 +84,17 @@ const reducer = (state = initialState, action) => {
     }
 
     case "RECEIVE_TICKETS": {
-      const { tickets: stateTickets } = state;
+      const { tickets: stateTickets, tabs, filters } = state;
       const { tickets: fetchedTickets } = action;
-      const sortedTickets = sortByPrice(fetchedTickets);
+      const sortedTickets = filterByTransfers(
+        [...stateTickets, ...fetchedTickets],
+        tabs,
+        filters
+      );
       return {
         ...state,
         tickets: [...stateTickets, ...fetchedTickets],
         sortedTickets,
-        lastFetchDate: action.lastFetchDate,
       };
     }
     default:

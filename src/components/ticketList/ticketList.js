@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "./ticketList.scss";
 import Ticket from "../ticket";
-import Error from "../error";
+import Warning from "../warning";
 
 const TicketList = ({ sortedTickets, emptyFilters }) => {
   const ticketsList = sortedTickets.slice(0, 5).map((ticket) => {
     return <Ticket key={`${ticket.id}`} ticket={ticket} />;
   });
 
-  const content = !emptyFilters ? <Error /> : ticketsList;
+  const content = !emptyFilters ? <Warning /> : ticketsList;
 
   return <>{content} </>;
 };

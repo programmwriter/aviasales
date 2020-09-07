@@ -12,7 +12,7 @@ export const sortByDuration = (ticketsList) => {
   );
 };
 
-const filterByTransfers = (tickets, tabs, filters) => {
+export const filterByTransfers = (tickets, tabs, filters) => {
   const tempList = tickets.filter((ticket) => {
     const {
       segments: [first],
