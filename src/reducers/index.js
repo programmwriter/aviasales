@@ -19,7 +19,7 @@ const initialState = {
     {
       title: "one",
       label: "1 пересадка",
-      enabled: false,
+      enabled: true,
     },
     {
       title: "two",

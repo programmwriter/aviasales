@@ -12,11 +12,7 @@ const Loading = ({ loading }) => {
   return (
     <>
       <Spin spinning={!loading}>
-        <Alert
-          message="Alert message title"
-          description="Further details about the context of this alert."
-          type="info"
-        />
+        <Alert message="Info" description="Tickets loaded!!!" type="info" />
       </Spin>
     </>
   );
