@@ -13,43 +13,44 @@ export const sortByDuration = (ticketsList) => {
 };
 
 export const filterByTransfers = (tickets, tabs, filters) => {
-  const tempList = tickets.filter((ticket) => {
-    const {
-      segments: [first],
-    } = ticket;
-    const { stops } = first;
-    let flag = 0;
+  const filteredTickets = tickets.filter((ticket) => {
+    const { stops } = ticket.segments[0];
+    const countTransfers = stops.length;
+    let isTicketInFilter = false;
 
     for (const { title, enabled } of filters) {
       if (enabled) {
         switch (title) {
           case "all":
-            flag = 1;
+            isTicketInFilter = true;
             break;
           case "without":
-            flag = stops.length === 0 ? 1 : 0;
+            isTicketInFilter = countTransfers === 0;
             break;
           case "one":
-            flag = stops.length === 1 ? 1 : 0;
+            isTicketInFilter = countTransfers === 1;
             break;
           case "two":
-            flag = stops.length === 2 ? 1 : 0;
+            isTicketInFilter = countTransfers === 2;
             break;
           case "three":
-            flag = stops.length === 3 ? 1 : 0;
+            isTicketInFilter = countTransfers === 3;
             break;
           default:
-            flag = 0;
+            isTicketInFilter = false;
             break;
         }
       }
     }
-    return flag;
+    return isTicketInFilter;
   });
 
-  const sortedTickets = tabs[0].active
-    ? sortByPrice(tempList)
-    : sortByDuration(tempList);
+  const isCurrentSortMetodPrice = tabs[0].active;
+
+  const sortedTickets = isCurrentSortMetodPrice
+    ? sortByPrice(filteredTickets)
+    : sortByDuration(filteredTickets);
+
   return sortedTickets;
 };
 
