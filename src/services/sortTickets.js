@@ -54,41 +54,41 @@ export const filterByTransfers = (tickets, tabs, filters) => {
   return sortedTickets;
 };
 
-const switchFilters = (filters, title) => {
-  // Если включается галочка "Все" - проставляются галочки всем остальным фильтрам
-  if (title === "all") {
-    const idx = filters.findIndex((el) => el.title === "all");
-    const { enabled } = filters[idx];
-    return filters.map((filter) => ({ ...filter, enabled: !enabled }));
-  }
+// const switchFilters = (filters, title) => {
+//   // Если включается галочка "Все" - проставляются галочки всем остальным фильтрам
+//   if (title === "all") {
+//     const idx = filters.findIndex((el) => el.title === "all");
+//     const { enabled } = filters[idx];
+//     return filters.map((filter) => ({ ...filter, enabled: !enabled }));
+//   }
 
-  // активируется необходимая галочка
-  const newFilters = filters.map((filter) => {
-    return filter.title === title
-      ? { ...filter, enabled: !filter.enabled }
-      : filter;
-  });
+//   // активируется необходимая галочка
+//   const newFilters = filters.map((filter) => {
+//     return filter.title === title
+//       ? { ...filter, enabled: !filter.enabled }
+//       : filter;
+//   });
 
-  // количество проставленных галочек
-  const countEnabled = newFilters.reduce((acc, filter) => {
-    const status = filter.title !== "all" && filter.enabled ? 1 : 0;
-    return acc + status;
-  }, 0);
+//   // количество проставленных галочек
+//   const countEnabled = newFilters.reduce((acc, filter) => {
+//     const status = filter.title !== "all" && filter.enabled ? 1 : 0;
+//     return acc + status;
+//   }, 0);
 
-  // Если проставить каждую галочку по пересадкам - галочка "Все" автоматически включится
-  if (countEnabled === newFilters.length - 1) {
-    return newFilters.map((filter) => {
-      return filter.title === "all" ? { ...filter, enabled: true } : filter;
-    });
-  }
-  // Если при включенной галочке "Все" снимается любая другая галочка - галочка "Все" тоже снимается
-  if (countEnabled !== newFilters.length - 1) {
-    return newFilters.map((filter) => {
-      return filter.title === "all" ? { ...filter, enabled: false } : filter;
-    });
-  }
-  return newFilters;
-};
+//   // Если проставить каждую галочку по пересадкам - галочка "Все" автоматически включится
+//   if (countEnabled === newFilters.length - 1) {
+//     return newFilters.map((filter) => {
+//       return filter.title === "all" ? { ...filter, enabled: true } : filter;
+//     });
+//   }
+//   // Если при включенной галочке "Все" снимается любая другая галочка - галочка "Все" тоже снимается
+//   if (countEnabled !== newFilters.length - 1) {
+//     return newFilters.map((filter) => {
+//       return filter.title === "all" ? { ...filter, enabled: false } : filter;
+//     });
+//   }
+//   return newFilters;
+// };
 
 export const toggleTab = (store, id) => {
   const { tabs, sortedTickets } = store;
@@ -105,15 +105,8 @@ export const toggleTab = (store, id) => {
   };
 };
 
-export const manipulateWithTickets = (state, title) => {
-  const { filters, tickets, tabs } = state;
+export const manipulateWithTickets = (filters, tickets, tabs) => {
+  const sortedTickets = filterByTransfers(tickets, tabs, filters);
 
-  const sortedFilters = switchFilters(filters, title);
-
-  const sortedTickets = filterByTransfers(tickets, tabs, sortedFilters);
-
-  return {
-    filters: sortedFilters,
-    sortedTickets,
-  };
+  return sortedTickets;
 };

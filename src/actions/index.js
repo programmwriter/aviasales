@@ -6,6 +6,7 @@ export const THROW_ERROR = "THROW_ERROR";
 export const TOGGLE_TAB = "TOGGLE_TAB";
 export const RECEIVE_SEARCHID = "RECEIVE_SEARCHID";
 export const RECEIVE_TICKETS = "RECEIVE_TICKETS";
+export const RECEIVE_SORTED_TICKETS = "RECEIVE_SORTED_TICKETS";
 export const COMPLETED_LOADING = "COMPLETED_LOADING";
 
 export const changeFilter = (title) => ({
@@ -29,9 +30,12 @@ export const receiveTickets = (tickets) => ({
   type: "RECEIVE_TICKETS",
   tickets,
 });
-export const completedLoading = (tickets) => ({
-  type: "COMPLETED_LOADING",
+export const receiveSortedTickets = (tickets) => ({
+  type: "RECEIVE_SORTED_TICKETS",
   tickets,
+});
+export const completedLoading = () => ({
+  type: "COMPLETED_LOADING",
 });
 
 const getTicketsInLoop = async (searchId, cbDispatch, addIdFn) => {
