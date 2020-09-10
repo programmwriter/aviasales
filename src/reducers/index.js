@@ -3,7 +3,6 @@ import searchIdReducer from "./searchId";
 import ticketsReducer from "./tickets";
 import tabsReducer from "./tabs";
 import filtersReducer from "./filters";
-import sortedTicketsReducer from "./sortedTickets";
 
 import { COMPLETED_LOADING } from "../actions";
 
@@ -16,12 +15,11 @@ const completedLoading = (state = false, action) => {
       return state;
   }
 };
-const reducer = combineReducers({
+const rootReducer = combineReducers({
   searchId: searchIdReducer,
   filters: filtersReducer,
   tickets: ticketsReducer,
   tabs: tabsReducer,
-  sortedTickets: sortedTicketsReducer,
   completedLoading,
 });
-export default reducer;
+export default rootReducer;

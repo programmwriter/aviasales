@@ -1,6 +1,6 @@
 import { CHANGE_FILTER } from "../actions";
 
-const initState = [
+const initialState = [
   {
     title: "all",
     label: "Все",
@@ -64,15 +64,12 @@ const switchFilters = (filters, title) => {
   return newFilters;
 };
 
-const filtersReducer = (state = initState, action) => {
-  switch (action.type) {
-    case CHANGE_FILTER: {
-      const { filters } = switchFilters(state, action.title);
-      return { ...state, filters };
-    }
-    default:
-      return state;
+const filtersReducer = (state = initialState, action) => {
+  if (action.type === CHANGE_FILTER) {
+    const filters = switchFilters(state, action.title);
+    return [...filters];
   }
+  return state;
 };
 
 export default filtersReducer;

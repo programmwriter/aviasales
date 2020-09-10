@@ -46,12 +46,12 @@ const getTicketsInLoop = async (searchId, cbDispatch, addIdFn) => {
 
   cbDispatch(receiveTickets(ticketsWithId));
 
-  if (!stop) {
-    await getTicketsInLoop(searchId, cbDispatch, addIdFn);
+  if (stop) {
+    cbDispatch(completedLoading());
+    return;
   }
 
-  cbDispatch(completedLoading());
-  return null;
+  await getTicketsInLoop(searchId, cbDispatch, addIdFn);
 };
 
 export const asyncGetTickets = () => async (dispatch) => {

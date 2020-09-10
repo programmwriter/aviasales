@@ -7,25 +7,12 @@ import Filter from "../filter";
 import Tabs from "../tabs";
 import TicketList from "../ticketList";
 import Loading from "../loading";
-import { asyncGetTickets, receiveSortedTickets } from "../../actions";
-import { manipulateWithTickets } from "../../services/sortTickets";
+import { asyncGetTickets } from "../../actions";
 
-const App = ({
-  asyncGetTicketsWithDispatch,
-  dispatchSortedTickets,
-  tabs,
-  filters,
-  tickets,
-}) => {
+const App = ({ asyncGetTicketsWithDispatch }) => {
   useEffect(() => {
     asyncGetTicketsWithDispatch();
   });
-
-  useEffect(() => {
-    const sortedTickets = manipulateWithTickets(filters, tickets, tabs);
-
-    dispatchSortedTickets(sortedTickets);
-  }, [tabs, filters, tickets]);
 
   return (
     <div className={classes.app}>
@@ -48,49 +35,10 @@ const App = ({
 
 const mapDispatchToProps = (dispatch) => ({
   asyncGetTicketsWithDispatch: () => dispatch(asyncGetTickets()),
-  dispatchSortedTickets: () => dispatch(receiveSortedTickets()),
 });
 
-const mapStateToProps = ({ tabs, filters, tickets }) => {
-  return {
-    tabs,
-    filters,
-    tickets,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);
 
 App.propTypes = {
   asyncGetTicketsWithDispatch: PropTypes.func.isRequired,
-  dispatchSortedTickets: PropTypes.func.isRequired,
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      name: PropTypes.string,
-      active: PropTypes.bool,
-    })
-  ).isRequired,
-  filters: PropTypes.arrayOf(
-    PropTypes.shape({
-      label: PropTypes.string,
-      title: PropTypes.string,
-      enabled: PropTypes.bool,
-    })
-  ).isRequired,
-  tickets: PropTypes.arrayOf(
-    PropTypes.shape({
-      price: PropTypes.number,
-      carrier: PropTypes.string,
-      segments: PropTypes.arrayOf(
-        PropTypes.shape({
-          origin: PropTypes.string,
-          destination: PropTypes.string,
-          date: PropTypes.string,
-          stops: PropTypes.arrayOf(PropTypes.string),
-          duration: PropTypes.number,
-        })
-      ),
-    })
-  ).isRequired,
 };

@@ -1,6 +1,6 @@
 import { TOGGLE_TAB } from "../actions";
 
-const initState = [
+const initialState = [
   {
     label: "САМЫЙ ДЕШЕВЫЙ",
     id: 1,
@@ -21,15 +21,12 @@ const toggleTab = (tabs, id) => {
   return toggledTabs;
 };
 
-const tabsReducer = (state = initState, action) => {
-  switch (action.type) {
-    case TOGGLE_TAB: {
-      const tabs = toggleTab(state, action.id);
-      return [...state, tabs];
-    }
-    default:
-      return state;
+const tabsReducer = (state = initialState, action) => {
+  if (action.type === TOGGLE_TAB) {
+    const tabs = toggleTab(state, action.id);
+    return [...tabs];
   }
+  return state;
 };
 
 export default tabsReducer;
