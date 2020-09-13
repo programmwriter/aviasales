@@ -2,18 +2,11 @@ import { RECEIVE_SEARCHID } from "../actions";
 
 const initState = "";
 
-const searchIdReducer = (state = initState, action) => {
-  // console.log(`search ID reducer ${state}`)
-  switch (action.type) {
-    case RECEIVE_SEARCHID: {
-      const { searchId } = action;
-
-      return searchId;
-    }
-
-    default:
-      return state;
+const searchId = (state = initState, { type, payload }) => {
+  if (type === RECEIVE_SEARCHID) {
+    return payload;
   }
+  return state;
 };
 
-export default searchIdReducer;
+export default searchId;

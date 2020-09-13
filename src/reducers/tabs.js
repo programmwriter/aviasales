@@ -21,12 +21,12 @@ const toggleTab = (tabs, id) => {
   return toggledTabs;
 };
 
-const tabsReducer = (state = initialState, action) => {
-  if (action.type === TOGGLE_TAB) {
-    const tabs = toggleTab(state, action.id);
-    return [...tabs];
+const tabs = (state = initialState, { type, payload }) => {
+  if (type === TOGGLE_TAB) {
+    const tabsList = toggleTab(state, payload);
+    return [...tabsList];
   }
   return state;
 };
 
-export default tabsReducer;
+export default tabs;

@@ -64,12 +64,12 @@ const switchFilters = (filters, title) => {
   return newFilters;
 };
 
-const filtersReducer = (state = initialState, action) => {
-  if (action.type === CHANGE_FILTER) {
-    const filters = switchFilters(state, action.title);
-    return [...filters];
+const filters = (state = initialState, { type, payload }) => {
+  if (type === CHANGE_FILTER) {
+    const filtersList = switchFilters(state, payload);
+    return [...filtersList];
   }
   return state;
 };
 
-export default filtersReducer;
+export default filters;

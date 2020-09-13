@@ -1,25 +1,23 @@
 import { combineReducers } from "redux";
-import searchIdReducer from "./searchId";
-import ticketsReducer from "./tickets";
-import tabsReducer from "./tabs";
-import filtersReducer from "./filters";
+import searchId from "./searchId";
+import tickets from "./tickets";
+import tabs from "./tabs";
+import filters from "./filters";
 
 import { COMPLETED_LOADING } from "../actions";
 
-const completedLoading = (state = false, action) => {
-  switch (action.type) {
-    case COMPLETED_LOADING: {
-      return true;
-    }
-    default:
-      return state;
+const completedLoading = (state = false, { type }) => {
+  if (type === COMPLETED_LOADING) {
+    return true;
   }
+  return state;
 };
+
 const rootReducer = combineReducers({
-  searchId: searchIdReducer,
-  filters: filtersReducer,
-  tickets: ticketsReducer,
-  tabs: tabsReducer,
+  searchId,
+  filters,
+  tickets,
+  tabs,
   completedLoading,
 });
 export default rootReducer;
