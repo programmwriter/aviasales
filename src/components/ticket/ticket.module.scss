@@ -1,6 +1,9 @@
+@import "../../styles/sizes.scss";
+
 .ticket {
   height: 185px;
   width: 100%;
+  max-width: 502px;
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
@@ -10,7 +13,6 @@
   border-radius: 5px;
 
   &__header {
-    // height: 100px;
     width: auto;
     display: flex;
     justify-content: space-between;
@@ -39,8 +41,19 @@
     justify-content: space-between;
   }
 
-  &__column {    
+  &__column {
     width: 140px;
+    min-width: 90px;
+
+    @media screen and (max-width: $md) {
+      margin-right: 10px;
+    }
+
+    &:nth-child(2) {
+      @media screen and (max-width: $md) {
+        min-width: 60px;
+      }
+    }
   }
 
   &__title {

@@ -1,33 +1,56 @@
-.app{
-  height:1350px;
-  width:960px;
-  background: #F3F7FA;
+@import "../../styles/sizes.scss";
+
+.app {
+  height: auto;
+  max-width: $lg;
+  min-width: $sm;
+  background: #f3f7fa;
   position: relative;
   margin: 0 auto;
 
-  &__header{
+  &__header {
     height: 160px;
     display: flex;
     justify-content: center;
   }
 
-  &__wrapper{
-      display: flex;
-      justify-content: space-around;
-      padding: 0 90px;
+  &__wrapper {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 90px;
+
+    @media screen and (max-width: $md) {
+      flex-direction: column;
+      padding: 0 60px;
+    }
+    @media screen and (max-width: $sm) {
+      padding: 0 30px;
+    }
   }
 
-  &__side{
-    height:252px;
-    width:232px;
-    background: #FFFFFF;
+  &__side {
+    margin-bottom: 15px;
+    margin-right: 5px;
+    height: 252px;
+    min-width: 232px;
+
+    background: #ffffff;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px
-    // background: aquamarine;
+    border-radius: 5px;
+    flex-shrink: 0;
+
+    @media screen and (max-width: $md) {
+      max-width: 500px;
+      min-width: 300px;
+    }
   }
 
-  &__content{
-    height:184px;
-    width:502px;
+  &__content {
+    height: auto;
+    min-width: 502px;
+
+    @media screen and (max-width: $md) {
+      min-width: 300px;
+    }
   }
 }

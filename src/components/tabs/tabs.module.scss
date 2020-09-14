@@ -1,5 +1,7 @@
+@import "../../styles/sizes.scss";
+
 .tabs {
-  width: 100%;
+  max-width: 502px;
   height: 50px;
   display: flex;
   border-radius: 5px;
