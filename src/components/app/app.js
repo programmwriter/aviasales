@@ -27,7 +27,6 @@ const App = () => {
       try {
         const responseId = await getSearchId();
         const { searchId } = responseId;
-        console.log("fetchData -> searchId", searchId);
 
         dispatch(receiveSearchId(searchId));
 

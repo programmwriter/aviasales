@@ -1,11 +1,11 @@
 import request from "./request";
 
 export const getSearchId = () => {
-  return request(`https://front-test.beta.aviasales.ru/search`);
+  return request(`https://aviasales-test-api.java-mentor.com/search`);
 };
 
 export const getTickets = (searchId) => {
   return request(
-    `https://front-test.beta.aviasales.ru/tickets?searchId=${searchId}`
+    `https://aviasales-test-api.java-mentor.com/tickets?searchId=${searchId}`
   );
 };
