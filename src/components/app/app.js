@@ -1,18 +1,57 @@
+/* eslint-disable no-constant-condition */
+/* eslint-disable no-await-in-loop */
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
 import classes from "./app.module.scss";
 import logo from "../../images/Logo.svg";
 import Filter from "../filter";
 import Tabs from "../tabs";
 import TicketList from "../ticketList";
 import Loading from "../loading";
-import { asyncGetTickets } from "../../actions";
+import addIdToTickets from "../../services/addIdToTickets";
+import { getSearchId, getTickets } from "../../services/apiServices";
+import {
+  receiveSearchId,
+  receiveTickets,
+  throwError,
+  completedLoading,
+} from "../../actions";
 
-const App = ({ asyncGetTicketsWithDispatch }) => {
+const App = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    asyncGetTicketsWithDispatch();
-  });
+    const addIdFn = addIdToTickets();
+
+    const fetchData = async () => {
+      try {
+        const responseId = await getSearchId();
+        const { searchId } = responseId;
+        console.log("fetchData -> searchId", searchId);
+
+        dispatch(receiveSearchId(searchId));
+
+        while (true) {
+          const responseTikets = await getTickets(searchId);
+          const { tickets, stop } = responseTikets;
+          const ticketsWithId = addIdFn(tickets);
+          dispatch(receiveTickets(ticketsWithId));
+
+          if (stop) {
+            dispatch(completedLoading());
+            break;
+          }
+        }
+      } catch (error) {
+        dispatch(throwError(error));
+      }
+    };
+
+    fetchData();
+    return () => {
+      dispatch(completedLoading());
+    };
+  }, [dispatch]);
 
   return (
     <div className={classes.app}>
@@ -33,12 +72,4 @@ const App = ({ asyncGetTicketsWithDispatch }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  asyncGetTicketsWithDispatch: () => dispatch(asyncGetTickets()),
-});
-
-export default connect(null, mapDispatchToProps)(App);
-
-App.propTypes = {
-  asyncGetTicketsWithDispatch: PropTypes.func.isRequired,
-};
+export default App;
